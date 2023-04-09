@@ -17,3 +17,7 @@ take the NAME of the container and you can use it to stop the container
 ![docker build result](.\static\dockerPs.png)
 
 ``docker stop great_panini``
+
+``docker run node`` - install the official version of node from docker hub
+
+``docker run -it node`` - expose an interactive session from inside the container
