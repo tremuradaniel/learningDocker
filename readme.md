@@ -7,3 +7,5 @@ commands
 ``docker logs [container_id]`` - see the past logs printed by the container
 ``docker run -it [container_id]`` - run container with interactive terminal
 
+``docker cp [source] [container_name]:/[source_in_container]`` copy files from and into a 
+running container
