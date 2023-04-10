@@ -5,7 +5,7 @@ WORKDIR /app
 COPY . /app
 
 # runs when the image is created
-RUN app npm install
+RUN npm install
 
 EXPOSE 80
 
