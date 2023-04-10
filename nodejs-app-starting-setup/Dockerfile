@@ -2,10 +2,12 @@ FROM node
 
 WORKDIR /app
 
-COPY . /app
+COPY package.json /app
 
 # runs when the image is created
 RUN npm install
+
+COPY . /app
 
 EXPOSE 80
 
