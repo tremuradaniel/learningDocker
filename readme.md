@@ -20,3 +20,14 @@ Above, **feedback** is the name of the volume, and **:/app/feedback** is the pat
 then you can run again the same command to have access to previous data.
 
 See data-volumes-01-starting-setup.
+
+# Bind Mounts
+
+Good for developing apps. With them you do not need to recreate the images each time you make changes in the code. 
+In order to achieve this, multiple volumes are needed
+Command:
+``docker run -d -p 3000:80 --rm --name feedback-app -v feedback:/app/feedback -v [absolute path]\data-volumes-01-starting-setup:/app -v /app/node_modules feedback-node:volumes``
+
+**-v [absolute path]\data-volumes-01-starting-setup:/app** - this volume lets you make changes in the source code which then are visible upon refreshing the page.
+**-v feedback:/app/feedback** - this persists data (see above)
+**-v /app/node_modules** - without this, the node modules created with the dockerfile gets overwritten by the first volume. Both this and the first volume reffer to app, but this second one, being more specific, wins over the first one.
