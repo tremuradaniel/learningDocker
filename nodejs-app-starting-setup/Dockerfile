@@ -13,6 +13,7 @@ RUN npm install
 # would mean the same thing as below
 COPY . /app
 
+# this does not do much - it has more of a documentation purpose
 EXPOSE 80
 
 # command is runned when the container base on the image is started

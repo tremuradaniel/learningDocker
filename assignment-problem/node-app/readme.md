@@ -9,6 +9,6 @@ The -p flag allows you to specify the port mappings between the host machine and
 In this command, the 8080 is the port number on the host machine, and 80 is the port number inside the container. This means that any requests made to port 8080 on the host machine will be forwarded to port 80 inside the container.
 
 
-In the case of this ``node-app`` is should be
+In the case of this ``node-app`` it should be
 
 ``docker run -p [whatever port on the host machine]:3000 my-image``
