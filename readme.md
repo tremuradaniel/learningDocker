@@ -1,4 +1,13 @@
-# Commands
+# Docker
+
+### Content
+
+##### 1. [Commands](#commands)
+##### 2. [Volumes](#volumes)
+##### 3. [Dockerfile](#dockerfile)
+##### 4. [Bind Mounts](#bind_mounts)
+
+<h1 id="commands">Commands</h1>
 
 ``docker ps`` - see all running containers
 ``docker ps -a`` - see all containers
@@ -10,7 +19,9 @@
 ``docker cp [source] [container_name]:/[source_in_container]`` copy files from and into a 
 running container
 
-# Volumes - persist data
+<h1 id="volumes">Volumes</h1>
+
+## Persist data
 
 when running the first time, in order to have a named volume as opposed to a anonymous one, use 
 ``docker run -d -p 3000:80 --rm --name feedback-app``-v feedback:/app/feedback`` feedback-node:volumes``
@@ -21,7 +32,14 @@ then you can run again the same command to have access to previous data.
 
 See data-volumes-01-starting-setup.
 
-# Bind Mounts
+<h1 id="dockerfile">Dockerfile</h1>
+
+#### RUN vs CMD
+
+```RUN``` - run the command when the image is built
+```CMD``` - run the command when the container is started
+
+<h1 id="bind_mounts">Bind Mounts</h1>
 
 Good for developing apps. With them you do not need to recreate the images each time you make changes in the code. 
 In order to achieve this, multiple volumes are needed

@@ -1,5 +1,7 @@
 FROM node
 
+# tells docker that all the subsequent commands will be executed from inside that
+# folder, i.e. npm install 
 WORKDIR /app
 
 COPY package.json /app
@@ -7,6 +9,8 @@ COPY package.json /app
 # runs when the image is created
 RUN npm install
 
+# by setting the WORKDIR we could now just as well do COPY . .  OR COPY . ./
+# would mean the same thing as below
 COPY . /app
 
 EXPOSE 80
