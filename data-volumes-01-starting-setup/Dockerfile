@@ -1,5 +1,7 @@
 FROM node:14
 
+ARG DEFAULT_PORT=80
+
 WORKDIR /app
 
 COPY package.json .
