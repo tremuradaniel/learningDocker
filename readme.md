@@ -38,6 +38,39 @@ while all the other layers after is are rebuilt.
 
 <h1 id="volumes">3. Volumes</h1>
 
+Volumes are folders on the host machine's hard drive which are mounted into containers.
+
+Volumes <strong>persist if a container shuts down</strong>. If a container (re-)starts and mounts a volume, any data inside of that volume is <b>available in the container</b>.
+
+A container <b>can write</b> data into a volume and <b>read</b> data from it.
+
+<h2>3.1. Anonymous Volumes</h2>
+
+Created with the help of the Dockerfile: `VOLUME [ "/app/feedback" ]`.
+
+They are deleted whenever the container is deleted if the container in started with the `--rm` option.
+
+<h3>3.1.1. Removing Anonymous Volumes</h3>
+
+We saw, that anonymous volumes are removed automatically, when a container is removed.
+
+This happens when you start / run a container with the `--rm` option.
+
+If you start a container without that option, the anonymous volume would NOT be removed, even if you remove the container (with docker rm ...).
+
+Still, if you then re-create and re-run the container (i.e. you run docker run ... again), a new anonymous volume will be created. So even though the anonymous volume wasn't removed automatically, it'll also not be helpful because a different anonymous volume is attached the next time the container starts (i.e. you removed the old container and run a new one).
+
+Now you just start piling up a bunch of unused anonymous volumes - you can clear them via `docker volume rm VOL_NAME` or `docker volume prune`.
+
+<h2>3.2. Named Volumes</h2>
+
+A named volume does not get deleted once the contaienr is deleted.
+
+Create container with a named volume attached:
+`docker run -d -p 3000:80 --rm --name feedback-app -v feedback:/app/feedback feedback-node:volumes`
+
+where `feedback` is the name of the volume and `/app/feedback` is the path inside the container file system in which we wanna save. 
+
 ## Persist data
 
 when running the first time, in order to have a named volume as opposed to a anonymous one, use 
@@ -73,6 +106,79 @@ Command:
 **-v [absolute path]\data-volumes-01-starting-setup:/app** - this volume lets you make changes in the source code which then are visible upon refreshing the page.
 **-v feedback:/app/feedback** - this persists data (see above)
 **-v /app/node_modules** - without this, the node modules created with the dockerfile gets overwritten by the first volume. Both this and the first volume reffer to app, but this second one, being more specific, wins over the first one.
+
+Shortcut on windows: `-v "%cd%":/app`
+
+<strong>NOTE!</strong>
+
+``docker run -d -p 3000:80 --rm --name feedback-app -v feedback:/app/feedback -v [absolute path]\data-volumes-01-starting-setup:/app feedback-node:volumes``
+
+Starting the container from an image created from a Dockerfile like
+``````docker
+FROM node:14
+
+WORKDIR /app
+
+COPY package.json .
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 80
+
+CMD ["npm", "start"]
+``````
+
+will cause an error!
+
+Even though `RUN npm install` was ran, `-v [absolute path]\data-volumes-01-starting-setup:/app` overwrites the folder, and we lose the node_modules folder!
+
+To solve this, we can use an anonymous volume.
+
+``docker run -d -p 3000:80 --rm --name feedback-app -v feedback:/app/feedback -v [absolute path]\data-volumes-01-starting-setup:/app -v /app/node_modules feedback-node:volumes``
+
+where `-v /app/node_modules` is the anonymous volume bit.
+
+<b>Obs.</b> - you could just as well added `VOLUME [ "/app/node_modules" ]` in the DockerFile.
+
+This works because Docker evaluates all the volumes you are setting on a container, and in
+the case of a conflict, the most specific wins.
+
+
+<b>Note on node</b>
+
+Use nodemon in order to have the changes in node reflected immediately
+```js
+"devDependencies": {
+    "nodemon": "2.0.4"
+  }
+```
+
+toghether with
+
+```js
+  "scripts": {
+    "start": "nodemon -L server.js"
+  },
+```
+
+Important to have `CMD ["npm", "start"]` in the DockerFile
+
+
+<h2 id="bind_mounts">5.1. Read-Only Bind Mounts</h2>
+
+By defaults, volumes are r/w.
+
+`-v [absolute path]\data-volumes-01-starting-setup:/app:ro` make it read only.
+
+Note that in the case of an app like <b>data-volumes-01-starting-setup</b>, we 
+want some folders to be modified from inside the container. For this, we will
+use again anonymous volumes.
+
+So you must make sure you start the container with 
+`-v app/feedback` and `-v app/temp` as well. 
+
 
 <h1 id="pro_tips">6. Pro tips</h1>
 
