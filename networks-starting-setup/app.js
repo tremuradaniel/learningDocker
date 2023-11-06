@@ -70,7 +70,9 @@ app.get('/people', async (req, res) => {
 
 mongoose.connect(
   // 'mongodb://localhost:27017/swfavorites',
-  'mongodb://host.docker.internal:27017/swfavorites',
+  // created a container with mongo - use container inspect to obtain the IPAdress
+  // from under "NetworkSettings":
+  'mongodb://172.17.0.2:27017/swfavorites',
   { useNewUrlParser: true },
   (err) => {
     if (err) {
