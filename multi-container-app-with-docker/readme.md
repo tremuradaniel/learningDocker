@@ -72,3 +72,29 @@ the backend to the frontend port.
 
 It is important for the backend to still be in the goals network since it must
 communicate with the mongodb.
+
+
+### Adding Data Persistence to MongoDB with Volumes
+
+`docker run --name mongodb --rm -d --network goals -v data:/data/db mongo` 
+
+Auth
+```
+docker run --name mongodb 
+-e MONGO_INITDB_ROOT_USERNAME=admin
+-e MONGO_INITDB_ROOT_PASSWORD=admin
+ --rm -d --network goals -v data:/data/db mongo
+```
+docker run --name mongodb -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin --rm -d --network goals -v data:/data/db mongo
+
+
+Issues
+
+
+1. FAILED TO CONNECT TO MONGODB
+
+MongoError: Authentication failed.
+
+![Alt text](image.png)
+
+Delete the volume and re-create the mongodb and the backend containers.
