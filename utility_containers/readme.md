@@ -10,3 +10,8 @@ For example, you can have directly node:
 
 `docker run -it -v D:\_coding\learning\docker\first_demo\utility_containers:/app node-util init`
 `docker run -it -v D:\_coding\learning\docker\first_demo\utility_containers:/app node-util install`
+
+
+### Using docker compose
+
+`docker-compose run [name_of_container_defined_in_docker-compose.yaml] init`
