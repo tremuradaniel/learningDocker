@@ -88,6 +88,10 @@ docker run --name mongodb
 docker run --name mongodb -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=admin --rm -d --network goals -v data:/data/db mongo
 
 
+### Volumes & Bind Mounts
+
+`docker run --name goals-backend -v logs:/app/logs -v [path_to_project_on_local]:/app -v /app/node_modules --rm -d --network goals -p 80:80 goals-node`
+
 Issues
 
 
