@@ -9,6 +9,8 @@ function CourseGoals(props) {
 
   return (
     <section id='course-goals'>
+            <h1>Goals here!</h1>
+
       <Card>
         {hasNoGoals && <h2>No goals found. Start adding some!</h2>}
         <ul>

@@ -92,6 +92,18 @@ docker run --name mongodb -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_RO
 
 `docker run --name goals-backend -v logs:/app/logs -v [path_to_project_on_local]:/app -v /app/node_modules --rm -d --network goals -p 80:80 goals-node`
 
+`docker run --name goals-frontend -v [path_to_project_on_local]:/app/src --rm -d -p 3000:3000 goals-react`
+
+Building the image for goals-react can take a lot of time.
+
+Try `.dockerignore`:
+
+```docker
+node_modules
+.git
+Dockerfile
+```
+
 Issues
 
 
