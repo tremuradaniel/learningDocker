@@ -8,7 +8,8 @@
 ##### 4. [Volumes](#volumes)
 ##### 5. [Dockerfile](#dockerfile)
 ##### 6. [Bind Mounts](#bind_mounts)
-##### 7. [Pro tips](#pro_tips)
+##### 7. [Docker Compose](#docker_compose)
+##### 8. [Pro tips](#pro_tips)
 
 <h1 id="commands">1. Commands</h1>
 
@@ -180,7 +181,26 @@ So you must make sure you start the container with
 `-v app/feedback` and `-v app/temp` as well. 
 
 
-<h1 id="pro_tips">6. Pro tips</h1>
+<h1 id="docker_compose">9. Docker compose</h1>
+
+By default `--rm -d` are included. 
+
+No need to specify `network` since when using docker compose, docker puts all
+the container from the `.yaml` file in the same network. If you still specify
+a network for some of them, they will then be in both the default and the custom one.
+
+
+From the context of the `.yaml` file:
+
+`docker-compose up -d` 
+
+`docker-compose down` - deletes what it created
+
+`docker-compose up --build` - force docker to rebuild the images
+`docker-compose build` - build custom images, without starting containers
+
+
+<h1 id="pro_tips">8. Pro tips</h1>
 
 1. For all docker commands where an ID can be used, you don't always have to copy / write out the full id.
 

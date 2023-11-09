@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  mongodb:
+    container_name: mongodb # if you want to force the name, and not let docker do it for you
+    image: 'mongo'
+    volumes:
+      - data:/data/db
+    # environment:
+      # - MONGO_INITDB_ROOT_USERNAME = admin
+      # MONGO_INITDB_ROOT_USERNAME: admin
+      # MONGO_INITDB_ROOT_PASSWORD: admin
+    env_file:
+      - ./env/mongo.env
+  backend:
+    # give instructions to build image
+    build: ./backend # builds the image after the 
+    # longer way of writing it... maybe you need certain docker file which is not
+    # names Dockerfile
+    # build: 
+    #   context: ./backend
+    #   dockerfile: Dockerfile-dev
+    #   args:
+    #     some-arg: 1
+    ports:
+      - '80:80'
+    volumes:
+      - logs:/app/logs
+      - ./backend:/app
+      - /app/node_modules
+    env_file:
+      - ./env/backend.env
+    depends_on:
+      - mongodb      
+  frontend:
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend/src:/app/src
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+
+# this is the syntax docker want for named volumes... despite it being mentioned
+# above as well
+volumes:
+  data:
+  logs:
+
+
