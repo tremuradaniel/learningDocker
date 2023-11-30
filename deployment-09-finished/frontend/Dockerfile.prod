@@ -9,9 +9,11 @@ RUN npm install
 COPY . .
 
 RUN npm run build
-
+# every from instruction creates a new stage in your dockerfile, even if you
+# use the same image
 FROM nginx:stable-alpine
 
+# copy from the previous stage, aliased as build, to the new stage
 COPY --from=build /app/build /usr/share/nginx/html
 
 EXPOSE 80
