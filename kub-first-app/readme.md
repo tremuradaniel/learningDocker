@@ -20,3 +20,7 @@ Check service
 `kubectl get services`
 
 `minikube service first-app` - get the api to reach the docker container
+
+Scalling 
+
+`kubectl scale deployment/first-app --replicas=3`
