@@ -1,0 +1,21 @@
+# kubectl apply -f=deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: second-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: second-app
+      tier: backend
+  template:
+    # no need to add kind: Pod since the template of a deployment always describes a pod
+    metadata:
+      labels:
+        app: second-app
+        tier: backend
+    spec:
+      containers:
+        - name: second-node
+          image: danielctremura/kub-first-app
