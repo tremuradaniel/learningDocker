@@ -24,3 +24,13 @@ Check service
 Scalling 
 
 `kubectl scale deployment/first-app --replicas=3`
+
+Updating deployments
+
+- update image
+
+`docker build -t danielctremura/kub-first-app:2 .` - necessary to tag the image, since k8 will
+change the code in the browser only if it sees a new version
+`docker push danielctremura/kub-first-app:2`
+
+`kubectl set image deployment/first-app kub-first-app=danielctremura/kub-first-app:2`
