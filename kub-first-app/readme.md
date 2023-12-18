@@ -34,3 +34,51 @@ change the code in the browser only if it sees a new version
 `docker push danielctremura/kub-first-app:2`
 
 `kubectl set image deployment/first-app kub-first-app=danielctremura/kub-first-app:2`
+
+Deployment rollbacks and history
+
+If you try to add an unexisting docker image to a pod:
+
+`kubectl set image deployment/first-app kub-first-app=danielctremura/kub-first-app:300`
+
+The old pod is not closed until the new one was created. But since the new one
+cannot be created:
+![Alt text](image.png)
+
+or `kubectl get pods`
+
+![Alt text](image-1.png)
+
+We can roll back the deployment.
+
+`kubectl rollout undo deployment/first-app`
+
+See history:
+
+`kubectl rollout history deployment/first-app`
+deployment.apps/first-app 
+REVISION  CHANGE-CAUSE    
+1         <none>
+2         <none>
+4         <none>
+5         <none>
+
+and to see in detail:
+`kubectl rollout history deployment/first-app --revision=2`
+
+deployment.apps/first-app with revision #2
+Pod Template:
+  Labels:       app=first-app
+        pod-template-hash=6dbf8f96fb
+  Containers:
+   kub-first-app:
+    Image:      danielctremura/kub-first-app:2
+    Port:       <none>
+    Host Port:  <none>
+    Environment:        <none>
+    Mounts:     <none>
+  Volumes:      <none>
+
+
+`kubectl rollout undo deployment/first-app --to-revision=1` - can rollback to a certain
+instance
