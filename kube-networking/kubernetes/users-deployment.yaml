@@ -17,6 +17,4 @@ spec:
           image: danielctremura/kube-demo-users:latest
           env:
             - name: AUTH_ADDRESS
-              value: localhost
-        - name: auth
-          image: danielctremura/kub-demo-auth:latest
+              value: "10.103.103.158" # this is the manual way of doing things...

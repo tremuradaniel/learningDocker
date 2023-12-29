@@ -23,8 +23,13 @@ app.post('/signup', async (req, res) => {
   }
 
   try {
-    // const hashedPW = "dummy text";
-    const hashedPW = await axios.get(`http://${process.env.AUTH_ADDRESS}/hashed-password/` + password);
+    /*
+      kubernetes provides us with env variables automatically.
+      Bellow we use the name of the service (kube-networking/kubernetes/auth-service.yaml:4)
+      we make it all caps with underscore separation + the SERVICE_HOST sufix
+
+    */
+    const hashedPW = await axios.get(`http://${process.env.AUTH_SERVICE_SERVICE_HOST}/hashed-password/` + password);
     // since it's a dummy service, we don't really care for the hashed-pw either
     console.log(hashedPW, email);
     res.status(201).json({ message: 'User created!' });

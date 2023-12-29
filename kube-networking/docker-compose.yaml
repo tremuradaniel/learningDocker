@@ -8,6 +8,7 @@ services:
       - "8081:8081"
     environment:
       - AUTH_ADDRESS: auth
+      - AUTH_SERVICE_SERVICE_HOST: auth # in orde to make docker see a kubernetes generated variable
   tasks:
     build: ./tasks-api
     ports: 
