@@ -8,9 +8,15 @@
 # Replica sets
 
 `kubectl create -f .\replicaset.yaml` - create
+`kubectl get rs` - list
 
 When checking the pods
 ![alt text](image.png)
 
 `kubectl get replicasets`
 ![alt text](image-1.png)
+
+# Deployment
+
+`kubectl create -f .\deployement.yaml` - create
+`kubectl get deploy` - list
