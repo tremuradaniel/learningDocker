@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  challenge
+  labels:
+    name:  mychallenge
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      os:  ubuntu
+  template:
+    metadata:
+      labels:
+        os:  ubuntu
+    spec:
+      containers:
+      - name: ubuntu
+        image: ubuntu:latest
+        resources:
+          limits:
+            memory: "500m"
+            cpu: "600m"
+        ports:
+          - containerPort: 8080
