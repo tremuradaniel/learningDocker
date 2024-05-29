@@ -1,0 +1,48 @@
+# Non-working Demo
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: liveread
+  labels:
+    app: liveread
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: liveread
+  template:
+    metadata:
+      labels:
+        app: liveread
+    spec:
+      containers:
+      - name: myapp
+        image: liveread:latest
+        ports:
+        - containerPort: 8080
+        # after the readiness probe finished
+        livenessProbe:
+          httpGet:
+            path: /liveness
+            port: 8080
+          initialDelaySeconds: 2
+          periodSeconds: 3
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3 # after 3 failed attempts, it will mark it as unhealthy
+        # runds only once when the pods starts up
+        readinessProbe:
+          httpGet:
+            path: /readiness
+            port: 8080
+          # wait 3 seconds for the pod to start
+          initialDelaySeconds: 3
+          # every 3 seconds it will check the path:port
+          periodSeconds: 3
+          timeoutSeconds: 1
+          successThreshold: 1 # enough to pass once
+          failureThreshold: 3 # after 3 failed attempts, it will mark it as unhealthy
+        resources:
+          limits:
+            cpu: 250mi
+            memory: 500m
