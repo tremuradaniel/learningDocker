@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+  echoedList: {{ .Values.TestList }}
+  echoedListRange: {{ .Values.TestList }}
+  firstItem:  {{ .Values.TestList }}
+  thirdItem: {{ .Values.TestList }}
+  uniqueList: {{ .Values.TestList }}
+  uniqueListLength:  {{ .Values.TestList }}
+  withoutHelm:  {{ .Values.TestList }}
+  sliceOneToThree: {{ .Values.TestList }}
+  goFirst: {{ .Values.TestList }}
+  httpLast: {{ .Values.TestList }}
+  doubledList: {{ .Values.TestList }}
+

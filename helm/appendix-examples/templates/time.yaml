@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: time-example
+data:
+  now: {{ now | quote }}
+  nowType: {{ typeOf now }}
+  nowKind: {{ kindOf now }}
+  nowManual: {{ toDate "2006-01-02 15:04:05" "2023-07-11 15:12:59" | quote }}
+  dateFunction: {{ date "02-01-2006" now | quote }}
+  twoHoursAgo: {{ dateModify "-2h" now | quote }}
+  epochNow: {{ now | unixEpoch | quote }}
+  nowAgo: {{ ago now }}
+  oneDayAgoSeconds: {{ ago (now | dateModify "-86400s") | quote }}
+  oneDayAgoMinutes: {{ ago (now | dateModify "-1440m") | quote }}
+  oneDayAgoHours: {{ ago (now | dateModify "-24h") | quote }}
+  oneDayAgoDays: {{ ago (now | dateModify "-1d") | quote }}
+  htmlNow: {{ now | htmlDate | quote }}
+  duration: {{ duration "-2h" | quote }}
+  durationRound: {{ durationRound "2500h5m3s" | quote }}
+    {{- $randomTime := 1689108322 }}
+  randomTimeEpoch: {{ $randomTime | quote }}
+    {{- $secondsDiff := (sub $randomTime (unixEpoch now)) }}
+  secondsAgo: {{ $secondsDiff | quote }}
+    {{- $durationString := duration $secondsDiff }}
+  durationString: 
+    {{ $durationString | quote }}
+  randomTimeAsTimeValue: 
+    {{ dateModify $durationString now | quote }}
+  dateInZone:
+    {{ print
+         (dateInZone "01-02-2006 03:04:05 MST" now "MST")
+         " : " 
+         (dateInZone "01-02-2006 03:04:05 MST" now "UTC")
+       | quote
+    }}
+  htmlDateInZone:
+    {{ htmlDateInZone (dateModify "-24h" now) "UTC" | quote }}
+
+
+

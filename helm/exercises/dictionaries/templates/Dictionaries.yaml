@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+  echoedDictionary: 
+    {{ .Values.TestDictionary }}
+  newDictionary: 
+    {{ .Values.TestDictionary }}
+  lookupValue:
+    {{ .Values.TestKey }}
+  keyPresent:
+    {{ .Values.TestKey }}
+  updatedDict:
+    {{ .Values.TestDictionary }}
+  removedDict:
+    {{ .Values.TestDictionary }}
+  omittedDict:
+    {{ .Values.TestDictionary }}
+  dictionaryKeys:
+    {{ .Values.TestDictionary }}
+  dictionaryValues:
+    {{ .Values.TestDictionary }}

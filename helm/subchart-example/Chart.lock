@@ -1,0 +1,6 @@
+dependencies:
+- name: values-checker
+  repository: file://../values-checker
+  version: 0.1.0
+digest: sha256:385a03ce2d2fe9d7a19ff7a598629d69d3f45e1bd04807bd36257b2cb76ffd92
+generated: "2023-03-16T14:49:41.12258-05:00"

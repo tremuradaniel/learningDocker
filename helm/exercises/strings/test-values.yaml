@@ -1,0 +1,4 @@
+TestString: |
+  example string line one
+  example string line two
+RegexInput: "\\w+"

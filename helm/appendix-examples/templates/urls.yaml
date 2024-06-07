@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: urls-example
+data:
+{{- $stringURL := "https://user@hostname:443/urlpath?key=value" }}
+{{- $parsedURL := urlParse $stringURL }}
+  baseURL:
+    {{ $parsedURL | quote }} 
+  typeOfParsedURL: {{ typeOf $parsedURL }}
+  kindOfParsedURL: {{ kindOf $parsedURL }}
+  components: |
+    host: {{ $parsedURL.host }}
+    query: {{ $parsedURL.query }}
+    path: {{ $parsedURL.path }}
+    hostname: {{ $parsedURL.hostname }}
+    opaque: {{ $parsedURL.opaque }}
+    userinfo: {{ $parsedURL.userinfo }}
+    scheme: {{ $parsedURL.scheme }}
+  joinedComponents: 
+    {{ urlJoin (dict
+      "scheme" "https"
+      "host" "componenthost:443"
+      "query" "key=value"
+      "path" "mypath"
+      )
+      | quote
+    }}
+  sanitizedQueryString:
+    {{ urlquery " string with spaces//" }}
+

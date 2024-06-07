@@ -1,0 +1,33 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  # format is <plural>.<group>
+  name: students.example.com
+spec:
+  # group name to use for REST API: /apis/<group>/<version>
+  group: example.com
+  # list of versions supported by this CustomResourceDefinition
+  versions:
+    - name: v1
+      # Enable / disable this version
+      served: true
+      # Only one version of the CRD can have this set
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                id:
+                  type: string
+  # Namespaced or Cluster
+  scope: Namespaced
+  names:
+    # plural name
+    plural: students
+    # singular name 
+    singular: student
+    # kind is CamelCased singular. Used by Manifests
+    kind: Student

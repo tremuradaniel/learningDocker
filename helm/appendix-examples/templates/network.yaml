@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: network-example
+data:
+  helmIP:
+    {{ getHostByName "kubernetes.svc.cluster.local" | quote }} 
+  localhost:
+    {{ getHostByName "localhost" | quote }} 
+

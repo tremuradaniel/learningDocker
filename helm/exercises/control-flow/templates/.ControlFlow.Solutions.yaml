@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+  # Basic letter grade, use if/else to compute
+  letterGrade: 
+    {{- if gt (int64 .Values.Score) 90 }}
+    A
+
+    {{- else if gt (int64 .Values.Score) 80 }}
+    B
+
+    {{- else if gt (int64 .Values.Score) 70 }}
+    C
+
+    {{- else if gt (int64 .Values.Score) 60 }}
+    D
+
+    {{- else }}
+    F
+
+    {{- end }}
+  # Fill out the inside of this with block
+  letterGradeUsingWith:
+    {{- with int64 .Values.Score }}
+      {{- if gt . 90 }}
+    A
+
+      {{- else if gt . 80 }}
+    B
+
+      {{- else if gt . 70 }}
+    C
+
+      {{- else if gt . 60 }}
+    D
+
+      {{- else }}
+    F
+
+      {{- end -}}
+    {{ else }}
+      F
+    {{- end }}
+  # Keep the $score variable as-is and print the grade without .Values.Score
+  letterGradeUsingVariable:
+  {{- $score := int64 .Values.Score -}}
+  {{- if gt $score 90 }}
+    A
+
+  {{- else if gt $score 80 }}
+    B
+
+  {{- else if gt $score 70 }}
+    C
+
+  {{- else if gt $score 60 }}
+    D
+
+  {{- else }}
+    F
+
+  {{ end }}
+  # For this one, fill in the action body using the ternary function
+  letterGradeUsingTernary:
+    {{- $grade := 
+         ternary "A" (
+           ternary "B" (
+             ternary "C" (
+               ternary "D" "F" (gt $score 60)
+             ) (gt $score 70)
+           ) (gt $score 80)
+         ) (gt $score 90)
+    }}
+    {{ $grade }}
+

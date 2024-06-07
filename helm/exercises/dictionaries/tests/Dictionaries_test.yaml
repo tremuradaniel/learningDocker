@@ -1,0 +1,255 @@
+suite: Dictionary exercises from Practical Helm course. See the Lab Format or Dictionaries Lab Walkthrough lessons for more details.
+templates:
+  - Dictionaries.yaml
+tests:
+  # printing dictionaries
+  - it: |
+      Should set the data.echoedDictionary property to a YAML mapping with the keys and values from the TestDictionary value. For instance, a: 2 -> a: 2
+    asserts:
+      - equal:
+          path: data.echoedDictionary
+          value: 
+            key : 2
+  - it: |
+      Should set the data.echoedDictionary property to a YAML mapping with the keys and values from the TestDictionary value. For multiple lines, be sure to indent properly. For instance, a: 2 -> a: 2
+    set:
+      TestDictionary:
+        key: value2
+        newProperty: newValue
+    asserts:
+      - equal:
+          path: data.echoedDictionary
+          value: 
+            key: value2
+            newProperty: newValue
+  # Creating
+  - it: |
+      Should set the data.newDictionary property to a new mapping with TestKey and TestValue values for the key and value. For instance, a TestKey of "sampleKey" and TestValue of "sampleValue" would result in the mapping `sampleKey: sampleValue`
+    asserts:
+      - equal:
+          path: data.newDictionary
+          value: 
+            key : 51
+  - it: |
+      Should set the data.newDictionary property to a new mapping with TestKey and TestValue values for the key and value. For instance, a TestKey of "sampleKey" and TestValue of "sampleValue" would result in the mapping `sampleKey: sampleValue`
+    set:
+      TestValue: value3
+    asserts:
+      - equal:
+          path: data.newDictionary
+          value: 
+            key: value3
+  # Lookups
+  - it: |
+      Should get the value from the TestDictionary value for the key given in the TestKey value, then print it in the data.lookupValue property. For example, a TestDictionary of `a: 3` and a TestKey of `"a"` will should set the data.lookupValue path to 3. 
+    asserts:
+      - equal:
+          path: data.lookupValue
+          value: 2
+  - it: |
+      Should get the value from the TestDictionary value for the key given in the TestKey value, then print it in the data.lookupValue property. For example, a TestDictionary of `a: 3` and a TestKey of `"a"` will should set the data.lookupValue path to 3.
+    set:
+      TestDictionary:
+        key: value3
+        newProperty: newValue
+      TestKey: newProperty
+    asserts:
+      - equal:
+          path: data.lookupValue
+          value: newValue
+  - it: |
+      Should get the value from the TestDictionary value for the key given in the TestKey value, then print it in the data.lookupValue property. For a nonexistent key, set the data.lookupValue property to `null`. For example, a TestDictionary of `a: 3` and a TestKey of `"b"` will should set the data.lookupValue path to null. 
+    set:
+      TestDictionary:
+        key: value3
+        newProperty: newValue
+      TestKey: newProperty2
+    asserts:
+      - equal:
+          path: data.lookupValue
+          value: null
+  # Checking for key presence
+  - it: |
+      Should set the data.keyPresent property to true if the TestDictionary value contains a key matching the TestKey value. For example, a TestDictionary of `a: 3` and a TestKey of `"a"` will should set the data.keyPresent path to true.
+    asserts:
+      - equal:
+          path: data.keyPresent
+          value: true
+  - it: |
+      Should set the data.keyPresent property to true if the TestDictionary value contains a key matching the TestKey value. For example, a TestDictionary of `a: 3` and a TestKey of `"b"` will should set the data.keyPresent path to false.
+    set:
+      TestDictionary:
+        key: value3
+        newProperty: newValue
+      TestKey: newProperty2
+    asserts:
+      - equal:
+          path: data.keyPresent
+          value: false
+  # Adding new entries
+  - it: |
+      Should set the data.updatedDict property to a new dictionary. The new dictionary should have the keys and values from the TestDictionary value as well as a new entry with the key set to the TestKey value and a value of the TestValue value. For example, a TestDictionary of `a: 3`, a TestKey of `"b"`, and a TestValue of 5 should result in the following dictionary:
+        ...
+        data:
+          updatedDict:
+            a: 3
+            b: 5
+    asserts:
+      - equal:
+          path: data.updatedDict
+          value: 
+            key: 51
+  - it: |
+      Should set the data.updatedDict property to a new dictionary. The new dictionary should have the keys and values from the TestDictionary value as well as a new entry with the key set to the TestKey value and a value of the TestValue value. For example, a TestDictionary of `a: 3`, a TestKey of `"b"`, and a TestValue of 5 should result in the following dictionary:
+        ...
+        data:
+          updatedDict:
+            a: 3
+            b: 5
+    set:
+      TestDictionary:
+        key: value3
+        newProperty: newValue
+      TestKey: newProperty2
+    asserts:
+      - equal:
+          path: data.updatedDict
+          value: 
+            key: value3
+            newProperty: newValue
+            newProperty2: 51
+  # Removing entries
+  - it: |
+      Should set the data.removedDict property to a new Dictionary with the all the keys and values from the TestDictionary value except for the TestKey value. For instance, the following values:
+        TestDictionary:
+          a: 1
+          b: 2
+        TestKey: "b"
+
+        Should result in the following property:
+
+        data:
+          removedDict:
+            a: 1
+
+    asserts:
+      - equal:
+          path: data.removedDict
+          value: {}
+  - it: |
+      Should set the data.removedDict property to a new Dictionary with the all the keys and values from the TestDictionary value except for the TestKey value. For instance, the following values:
+        TestDictionary:
+          a: 1
+          b: 2
+        TestKey: "b"
+
+      Should result in the following property:
+
+        data:
+          removedDict:
+            a: 1
+    set:
+      TestDictionary:
+        key: value4
+        newProperty: newValue
+      TestKey: newProperty2
+    asserts:
+      - equal:
+          path: data.removedDict
+          value: 
+            key: value4
+            newProperty: newValue
+  # Omitting entries
+  - it: |
+      Should set the data.omittedDict property to a new dictionary with the entries from TestDictionary except for the TestKey key. For instance, the following values:
+        TestDictionary:
+          a: 1
+          b: 2
+        TestKey: "b"
+
+      Should result in the following property:
+
+        data:
+          omittedDict:
+            a: 1
+    asserts:
+      - equal:
+          path: data.omittedDict
+          value: {}
+  - it: |
+      Should set the data.omittedDict property to a new dictionary with the entries from TestDictionary except for the TestKey key. For instance, the following values:
+        TestDictionary:
+          a: 1
+          b: 2
+        TestKey: "b"
+
+      Should result in the following property:
+
+        data:
+          omittedDict:
+            a: 1
+    set:
+      TestDictionary:
+        key: value4
+        newProperty: newValue
+      TestKey: newProperty2
+    asserts:
+      - equal:
+          path: data.omittedDict
+          value: 
+            key: value4
+            newProperty: newValue
+  # keys and values
+  - it: |
+      Should set the data.dictionaryKeys property to a list of the keys in the EmptyDictionary value. This will be empty in the default values.yaml file, but overrides will put more entries into the dictionary. For example, if EmptyDictionary is set to { "a": 1, "b": 2 }, the data.dictionaryKeys path should be set to [ "a", "b" ].
+    set:
+      EmptyDictionary:
+        key: value
+    asserts:
+      - equal:
+          path: data.dictionaryKeys
+          value: [ key ]
+  - it: |
+      Should set the data.dictionaryKeys property to a list of the keys in the EmptyDictionary value. This will be empty in the default values.yaml file, but overrides will put more entries into the dictionary. For example, if EmptyDictionary is set to { "a": 1, "b": 2 }, the data.dictionaryKeys path should be set to [ "a", "b" ].
+    asserts:
+      - equal:
+          path: data.dictionaryKeys
+          value: []
+  - it: |
+      Should set the data.dictionaryKeys property to a list of the keys in the EmptyDictionary value. This will be empty in the default values.yaml file, but overrides will put more entries into the dictionary. For example, if EmptyDictionary is set to { "a": 1, "b": 2 }, the data.dictionaryKeys path should be set to [ "a", "b" ].
+    set:
+      EmptyDictionary:
+        key: value
+        key2: value2
+        thirdKey: value3
+    asserts:
+      - equal:
+          path: data.dictionaryKeys
+          value: [ key, key2, thirdKey ]
+  - it: |
+      Should set the data.dictionaryValues property to a list of the values in the EmptyDictionary value. This will be empty in the default values.yaml file, but overrides will put more entries into the dictionary. For example, if EmptyDictionary is set to { "a": 1, "b": 2 }, the data.dictionaryValues path should be [ 1, 2 ].
+    set:
+      EmptyDictionary:
+        key: value
+    asserts:
+      - equal:
+          path: data.dictionaryValues
+          value: [ value ]
+  - it: |
+      Should set the data.dictionaryValues property to a list of the values in the EmptyDictionary value. This will be empty in the default values.yaml file, but overrides will put more entries into the dictionary. For example, if EmptyDictionary is set to { "a": 1, "b": 2 }, the data.dictionaryValues path should be [ 1, 2 ].
+    asserts:
+      - equal:
+          path: data.dictionaryValues
+          value: []
+  - it: |
+      Should set the data.dictionaryValues property to a list of the values in the EmptyDictionary value. This will be empty in the default values.yaml file, but overrides will put more entries into the dictionary. For example, if EmptyDictionary is set to { "a": 1, "b": 2 }, the data.dictionaryValues path should be [ 1, 2 ].
+    set:
+      EmptyDictionary:
+        key: value
+        key2: value2
+        thirdKey: value3
+    asserts:
+      - equal:
+          path: data.dictionaryValues
+          value: [ value, value2, value3 ]
+

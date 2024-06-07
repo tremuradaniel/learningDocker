@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: custom-key-certs-example
+data:
+  privateKey: |
+    {{- $privateKey := genPrivateKey "rsa" }}
+    {{- $privateKey | toYaml | nindent 4 }}
+  certAuthorityWithKey: |
+    {{- $caWithKey := genCAWithKey 
+                        "example-host.com" 
+                        365 
+                        $privateKey 
+    }}
+    {{- $caWithKey | toYaml | nindent 4 }}
+  selfSignedCertWithKey : |
+    {{- $cert := genSelfSignedCertWithKey 
+                   "example-host.com" 
+                   (list "127.0.0.1") 
+                   (list "example.com") 
+                   365 
+                   $privateKey
+    }}
+    {{- $cert | toYaml | nindent 4 }}
+  signedCertWithKey: |
+    {{- $signedCert := genSignedCertWithKey 
+                         "example-host.com" 
+                         (list "127.0.0.1") 
+                         (list "example.com") 
+                         365 
+                         $caWithKey
+                         $privateKey
+    }}
+    {{- $signedCert | toYaml | nindent 4 }}
+

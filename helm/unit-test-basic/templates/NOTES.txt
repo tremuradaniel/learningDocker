@@ -1,0 +1,16 @@
+# Accessing the application 
+
+This assumes you are using Kubernetes on Docker Desktop. Don't use this chart for anything serious.
+
+1. Run `kubectl get svc`
+2. Find the PORT value after 8080: for hello-world-service. For instance, 30519 for 8080:30519/TCP.
+3. Run `curl localhost:{your-port}`
+
+# Updating
+
+Modify the Message value (such as in values.yaml) and run `helm upgrade` to change the message. 
+
+The current message is:
+
+"{{ .Values.Message }}"
+

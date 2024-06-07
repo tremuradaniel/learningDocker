@@ -1,0 +1,91 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: helm-reflection
+data:
+  kindOfExampleKey: {{ kindOf .Values.exampleKey }}
+  kindOfExampleKeyIsString: {{ (kindIs "string" .Values.exampleKey) | quote }}
+  kindOfExampleKeyIsInvalid: {{ (kindIs "invalid" .Values.exampleKey) | quote }}
+  kindOfMissingKey: {{ kindOf .Values.missingKey }}
+  kindOfMissingKeyIsInvalid: {{ (kindIs "invalid" .Values.missingKey) | quote }}
+  kindOfNumberKey: {{ kindOf .Values.numberKey }}
+  kindOfNumberKeyIsFloat64: {{ (kindIs "float64" .Values.numberKey) | quote }}
+  kindOfNumberKeyIsInvalid: {{ (kindIs "invalid" .Values.numberKey) | quote }}
+  kindOfValues: {{ kindOf .Values }}
+  kindOfValuesIsMap: {{ (kindIs "map" .Values) | quote }}
+  kindOfValuesIsInvalid: {{ (kindIs "invalid" .Values) | quote }}
+  kindOfListKey: {{ kindOf .Values.listKey }}
+  kindOfListKeyIsSlice: {{ (kindIs "slice" .Values.listKey) | quote }}
+  kindOfListKeyIsInvalid: {{ (kindIs "invalid" .Values.listKey) | quote }}
+  kindOfBooleanKey: {{ kindOf .Values.booleanKey }}
+  kindOfBooleanKeyIsBool: {{ (kindIs "bool" .Values.booleanKey) | quote }}
+  kindOfBooleanKeyIsInvalid: {{ (kindIs "invalid" .Values.booleanKey) | quote }}
+
+  typeOfExampleKey: {{ typeOf .Values.exampleKey }}
+  typeOfExampleKeyIsString: {{ (typeIs "string" .Values.exampleKey) | quote }}
+  typeOfExampleKeyIsInvalid: {{ (typeIs "invalid" .Values.exampleKey) | quote }}
+  typeOfMissingKey: {{ typeOf .Values.missingKey }}
+  typeOfMissingKeyIsInvalid: {{ (typeIs "invalid" .Values.missingKey) | quote }}
+  typeOfNumberKey: {{ typeOf .Values.numberKey }}
+  typeOfNumberKeyIsFloat64: {{ (typeIs "float64" .Values.numberKey) | quote }}
+  typeOfNumberKeyIsInvalid: {{ (typeIs "invalid" .Values.numberKey) | quote }}
+  {{ $dict := dict "a" 1 "b" 1 }}
+  typeOfValues: {{ typeOf .Values }}
+  typeOfValuesIsMap: {{ (typeIs "map" $dict) | quote }}
+  typeOfValuesIsInvalid: {{ (typeIs "invalid" $dict) | quote }}
+  typeOfListKey: {{ typeOf .Values.listKey | quote }}
+  typeOfListKeyIsSlice: {{ (typeIs "slice" .Values.listKey) | quote }}
+  typeOfListKeyIsInvalid: {{ (typeIs "invalid" .Values.listKey) | quote }}
+  typeOfBooleanKey: {{ typeOf .Values.booleanKey }}
+  typeOfBooleanKeyIsBool: {{ (typeIs "bool" .Values.booleanKey) | quote }}
+  typeOfBooleanKeyIsInvalid: {{ (typeIs "invalid" .Values.booleanKey) | quote }}
+
+  intFromString:
+    {{ int "100" }}
+  intFromStringKind:
+    {{ int "100" | kindOf }}
+  floatFromString:
+    {{ float64 "abc" }}
+  floatFromStringKind:
+    {{ float64 "100" | kindOf }}
+  int64FromString:
+    {{ int64 "100" }}
+  int64FromStringKind:
+    {{ int64 "100" | kindOf }}
+
+  intFromNumber:
+    {{ int 73.25 }}
+  intFromNumberKind:
+    {{ int 73.25 | kindOf }}
+  floatFromNumber:
+    {{ float64 123 }}
+  floatFromNumberKind:
+    {{ float64 123 | kindOf }}
+  int64FromNumber:
+    {{ int64 73.25 }}
+  int64FromNumberKind:
+    {{ int64 73.25 | kindOf }}
+
+  toStringValues: {{ toString .Values }}
+  toYamlValues: 
+{{ toYaml .Values | indent 4}}
+  toJsonValues: {{ toJson .Values }}
+
+
+  {{ $string := "48" }}
+  intFromString:
+    {{ if regexMatch "[0-9]+" $string }}
+    {{ float64 $string }}
+    {{ else }}
+    String failed regular expression check
+    {{ end }}
+  {{ $current := semver "0.0.1" }}
+  {{ $new := semver "0.0.2" }}
+  releaseStatus:
+  {{ if eq 1 ($new.Compare $current) }}
+    new
+  {{ else }}
+    old
+  {{ end }}
+
+

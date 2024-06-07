@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lookup-example
+data:
+  totalDefaultNamespace: 
+    {{- $defaultConfigMaps := lookup "v1" "ConfigMap" "default" "" }}
+    {{- $defaultConfigMaps.items | default list | len | quote | nindent 4 }}
+  thisMapExisted: |
+    {{- $thisConfigMap := lookup "v1" "ConfigMap" "default" "lookup-example" }}
+    {{- if $thisConfigMap.kind }}
+      Map existed at last install / upgrade
+    {{- else }}
+      Map didn't exist at last install / upgrade
+    {{- end }}
+  configMaps: |
+    {{- $configMaps := lookup "v1" "ConfigMap" "" "" }}
+    {{- if or (not $configMaps) (eq 0 (len $configMaps)) }}
+    none found on cluster
+    {{- else }}
+    {{- range $map := $configMaps.items }}
+    - name: {{ $map.metadata.namespace}}/{{ $map.metadata.name }}
+      dataLength: {{ len $map.data }}
+    {{- end }}
+    {{ end }}
+

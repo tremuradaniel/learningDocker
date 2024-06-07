@@ -1,0 +1,335 @@
+suite: Number exercises from Practical Helm course. See the Lab Format or Numbers Lab Walkthrough lessons for more details.
+templates:
+  - Numbers.yaml
+tests:
+  # Arithmetic 
+  - it: should add the FirstNumber and SecondNumber values together and save the result in the data.added path. For example, if FirstNumber and SecondNumber are both 2, then data.added should be 4.
+    asserts:
+      - equal:
+          path: data.added
+          value: 7
+  - it: should subtract the SecondNumber from the FirstNumber value and save the result in the data.subtracted path. For example, if FirstNumber is 3 and SecondNumber is 2, then data.subtracted should be 1.
+    asserts:
+       - equal:
+          path: data.subtracted
+          value: 3
+  - it: should multiply the FirstNumber and SecondNumber values together and save the result in the data.multiplied path. For example, if FirstNumber and SecondNumber are both 3, then data.multiplied should be 9.
+    asserts:
+       - equal:
+          path: data.multiplied
+          value: 10
+  - it: should divide the FirstNumber value by the SecondNumber value and save the result in the data.divided path. For example, if FirstNumber is 30 and SecondNumber is 2, then data.divided should be 15.
+    asserts:
+       - equal:
+          path: data.divided
+          value: 2
+  - it: should add the FirstNumber and SecondNumber values together and save the result in the data.added path. For example, if FirstNumber and SecondNumber are both 2, then data.added should be 4.
+    set:
+      FirstNumber: 477
+      SecondNumber: 53
+    asserts:
+      - equal:
+          path: data.added
+          value: 530
+  - it: should subtract the SecondNumber from the FirstNumber value and save the result in the data.subtracted path. For example, if FirstNumber is 3 and SecondNumber is 2, then data.subtracted should be 1.
+    set:
+      FirstNumber: 477
+      SecondNumber: 53
+    asserts:
+      - equal:
+          path: data.subtracted
+          value: 424
+  - it: should multiply the SecondNumber and FirstNumber values and save the result in the data.multiplied path. For example, if FirstNumber is 3 and SecondNumber is 2, then data.multiplied should be 6.
+    set:
+      FirstNumber: 477
+      SecondNumber: 53
+    asserts:
+      - equal:
+          path: data.multiplied
+          value: 25281
+  - it: should divide the SecondNumber value by the FirstNumber value and save the result in the data.divided path. For example, if FirstNumber is 30 and SecondNumber is 2, then data.divided should be 15.
+    set:
+      FirstNumber: 477
+      SecondNumber: 53
+    asserts:
+      - equal:
+          path: data.divided
+          value: 9
+  # Default float behavior in helm templates is to floor ints before performing arithmetic
+  - it: Should coerce floats to integers and then add 
+    set:
+      FirstNumber: 64.30
+      SecondNumber: 2.71828
+    asserts:
+      - equal:
+          path: data.added
+          value: 66
+  - it: should subtract the SecondNumber from the FirstNumber value and save the result in the data.subtracted path. For example, if FirstNumber is 7.5 and SecondNumber is 3, the result will be 2
+    set:
+      FirstNumber: 64.30
+      SecondNumber: 2.71828
+    asserts:
+  - it: should subtract the SecondNumber from the FirstNumber value and save the result in the data.subtracted path. For example, if FirstNumber is 7.5 and SecondNumber is 3, the result will be 2
+    set:
+      FirstNumber: 64.30
+      SecondNumber: 2.71828
+    asserts:
+      - equal:
+          path: data.subtracted
+          value: 62
+  - it: should subtract the SecondNumber from the FirstNumber value and save the result in the data.subtracted path. For example, if FirstNumber is 7.5 and SecondNumber is 3, the result will be 2
+    set:
+      FirstNumber: 64.30
+      SecondNumber: 2.71828
+    asserts:
+      - equal:
+          path: data.multiplied
+          value: 128
+  - it: should subtract the SecondNumber from the FirstNumber value and save the result in the data.subtracted path. For example, if FirstNumber is 7.5 and SecondNumber is 3, the result will be 2
+    set:
+      FirstNumber: 64.30
+      SecondNumber: 2.71828
+    asserts:
+      - equal:
+          path: data.divided
+          value: 32
+  # Comparisons
+  - it: should set the data.greaterThan field to true if the FirstNumber value is greater than the SecondNumber value, and false otherwise. For example, if FirstNumber is 5 and SecondNumber is 3, data.greaterThan should be set to false.
+    asserts:
+      - equal:
+          path: data.greaterThan
+          value: true
+  - it: should set the data.lessThan field to true if the FirstNumber value is less than the SecondNumber value, and false otherwise. For example, if FirstNumber is 5 and SecondNumber is 3, data.lessThan should be set to false.
+    asserts:
+      - equal:
+          path: data.lessThan
+          value: false
+  - it: should set the data.greaterThanEqualTo field to true if the FirstNumber value is greater than or equal to the SecondNumber value, and false otherwise. For example, if FirstNumber is 5 and SecondNumber is 3, data.greaterThanEqualTo should be set to false.
+    asserts:
+      - equal:
+          path: data.greaterThanEqualTo
+          value: true
+  - it: should set the data.lessThanOrEqualTo field to true if the FirstNumber value is less than or equal to than the SecondNumber value, and false otherwise. For example, if FirstNumber is 5 and SecondNumber is 3, data.lessThanOrEqualTo should be set to false.
+    asserts:
+      - equal:
+          path: data.lessThanOrEqualTo
+          value: false
+  - it: should set the data.equals field to true if the FirstNumber value is equal to the SecondNumber value, and false otherwise. For example, if FirstNumber is 5 and SecondNumber is 3, data.equals should be set to false.
+    asserts:
+      - equal:
+          path: data.equals
+          value: false
+  - it: should set the data.notEquals field to true if the FirstNumber value is not euqal to the SecondNumber value, and false otherwise. For example, if FirstNumber is 5 and SecondNumber is 3, data.notEquals should be set to false.
+    asserts:
+      - equal:
+          path: data.notEquals
+          value: true
+  - it: should set the data.greaterThan field to true if the FirstNumber value is greater than the SecondNumber value, and false otherwise. For example, if FirstNumber is 5 and SecondNumber is 3, data.greaterThan should be set to false.
+    set:
+      FirstNumber: 64
+      SecondNumber: 65
+    asserts:
+      - equal:
+          path: data.greaterThan
+          value: false
+  - it: should set the data.lessThan field to true if the FirstNumber value is less than the SecondNumber value, and false otherwise. For example, if FirstNumber is 5 and SecondNumber is 3, data.lessThan should be set to false.
+    set:
+      FirstNumber: 64
+      SecondNumber: 65
+    asserts:
+      - equal:
+          path: data.lessThan
+          value: true
+  - it: should set the data.greaterThanEqualTo field to true if the FirstNumber value is greater than or equal to the SecondNumber value, and false otherwise. For example, if FirstNumber is 5 and SecondNumber is 3, data.greaterThanEqualTo should be set to false.
+    set:
+      FirstNumber: 64
+      SecondNumber: 65
+    asserts:
+      - equal:
+          path: data.greaterThanEqualTo
+          value: false
+  - it: should set the data.lessThanOrEqualTo field to true if the FirstNumber value is less than or equal to the SecondNumber value, and false otherwise. For example, if FirstNumber is 5 and SecondNumber is 3, data.lessThanOrEqualTo should be set to false.
+    set:
+      FirstNumber: 64
+      SecondNumber: 65
+    asserts:
+      - equal:
+          path: data.lessThanOrEqualTo
+          value: true
+  - it: should set the data.equals field to true if the FirstNumber value is equal to the SecondNumber value, and false otherwise. For example, if FirstNumber is 5 and SecondNumber is 3, data.equals should be set to false.
+    set:
+      FirstNumber: 64
+      SecondNumber: 65
+    asserts:
+      - equal:
+          path: data.equals
+          value: false
+  - it: should set the data.notEquals field to true if the FirstNumber value is not equal to the SecondNumber value, and false otherwise. For example, if FirstNumber is 5 and SecondNumber is 3, data.notEquals should be set to false.
+    set:
+      FirstNumber: 64
+      SecondNumber: 65
+    asserts:
+      - equal:
+          path: data.notEquals
+          value: true
+  - it: should set the data.greaterThan field to true if the FirstNumber value is greater than the SecondNumber value, and false otherwise. For example, if FirstNumber is 3 and SecondNumber is 3, data.greaterThan should be set to false.
+    set:
+      FirstNumber: 64
+      SecondNumber: 64
+    asserts:
+      - equal:
+          path: data.greaterThan
+          value: false
+  - it: should set the data.lessThan field to true if the FirstNumber value is less than the SecondNumber value, and false otherwise. For example, if FirstNumber is 3 and SecondNumber is 3, data.lessThan should be set to false.
+    set:
+      FirstNumber: 64
+      SecondNumber: 64
+    asserts:
+      - equal:
+          path: data.lessThan
+          value: false
+  - it: should set the data.greaterThanEqualTo field to true if the FirstNumber value is greater than or equal to the SecondNumber value, and false otherwise. For example, if FirstNumber is 3 and SecondNumber is 3, data.greaterThanEqualTo should be set to false.
+    set:
+      FirstNumber: 64
+      SecondNumber: 64
+    asserts:
+      - equal:
+          path: data.greaterThanEqualTo
+          value: true
+  - it: should set the data.lessThanOrEqualTo field to true if the FirstNumber value is less than or equal to the SecondNumber value, and false otherwise. For example, if FirstNumber is 3 and SecondNumber is 3, data.lessThanOrEqualTo should be set to false.
+    set:
+      FirstNumber: 64
+      SecondNumber: 64
+    asserts:
+      - equal:
+          path: data.lessThanOrEqualTo
+          value: true
+  - it: should set the data.equals field to true if the FirstNumber value is equal to the SecondNumber value, and false otherwise. For example, if FirstNumber is 3 and SecondNumber is 3, data.equals should be set to false.
+    set:
+      FirstNumber: 64
+      SecondNumber: 64
+    asserts:
+      - equal:
+          path: data.equals
+          value: true
+  - it: should set the data.notEquals field to true if the FirstNumber value is not equal to the SecondNumber value, and false otherwise. For example, if FirstNumber is 3 and SecondNumber is 3, data.notEquals should be set to false.
+    set:
+      FirstNumber: 64
+      SecondNumber: 64
+    asserts:
+      - equal:
+          path: data.notEquals
+          value: false
+  - it: should set the data.greaterThan field to true if the FirstNumber value is greater than the SecondNumber value, and false otherwise. For example, if FirstNumber is 4.7 and SecondNumber is 4.3, data.greaterThan should be set to false.
+    set:
+      FirstNumber: 64.98
+      SecondNumber: 64.3
+    asserts:
+      - equal:
+          path: data.greaterThan
+          value: true
+  - it: should set the data.lessThan field to true if the FirstNumber value is less than the SecondNumber value, and false otherwise. For example, if FirstNumber is 4.7 and SecondNumber is 4.3, data.lessThan should be set to false.
+    set:
+      FirstNumber: 64.98
+      SecondNumber: 64.3
+    asserts:
+      - equal:
+          path: data.lessThan
+          value: false
+  - it: should set the data.greaterThanEqualTo field to true if the FirstNumber value is greater than or equal to the SecondNumber value, and false otherwise. For example, if FirstNumber is 4.7 and SecondNumber is 4.3, data.greaterThanEqualTo should be set to false.
+    set:
+      FirstNumber: 64.98
+      SecondNumber: 64.3
+    asserts:
+      - equal:
+          path: data.greaterThanEqualTo
+          value: true
+  - it: should set the data.lessThanOrEqualTo field to true if the FirstNumber value is less than or equal to the SecondNumber value, and false otherwise. For example, if FirstNumber is 4.7 and SecondNumber is 4.3, data.lessThanOrEqualTo should be set to false.
+    set:
+      FirstNumber: 64.98
+      SecondNumber: 64.3
+    asserts:
+      - equal:
+          path: data.lessThanOrEqualTo
+          value: false
+  - it: should set the data.equals field to true if the FirstNumber value is equal to the SecondNumber value, and false otherwise. For example, if FirstNumber is 4.7 and SecondNumber is 4.3, data.equals should be set to false.
+    set:
+      FirstNumber: 64.98
+      SecondNumber: 64.3
+    asserts:
+      - equal:
+          path: data.equals
+          value: false
+  - it: should set the data.notEquals field to true if the FirstNumber value is not equal to the SecondNumber value, and false otherwise. For example, if FirstNumber is 4.7 and SecondNumber is 4.3, data.notEquals should be set to false.
+    set:
+      FirstNumber: 64.98
+      SecondNumber: 64.3
+    asserts:
+      - equal:
+          path: data.notEquals
+          value: true
+  
+  # mod
+  - it: should set the data.modded field to the result of the modulo operation of the FirstNumber value by the SecondNumber value. For example, if FirstNumber is 10 and SecondNumber is 3, data.modded should be set to 7.
+    asserts:
+      - equal:
+          path: data.modded
+          value: 1
+  - it: should set the data.modded field to the result of the modulo operation of the FirstNumber value by the SecondNumber value. For example, if FirstNumber is 10 and SecondNumber is 10, data.modded should be set to 0.
+    set:
+      FirstNumber: 64.98
+      SecondNumber: 64.3
+    asserts:
+      - equal:
+          path: data.modded
+          value: 0
+  - it: should set the data.modded field to the result of the modulo operation of the FirstNumber value by the SecondNumber value. For example, if FirstNumber is 3 and SecondNumber is 10, data.modded should be set to 3.
+    set:
+      FirstNumber: 1235
+      SecondNumber: 10000
+    asserts:
+      - equal:
+          path: data.modded
+          value: 1235
+
+  # Rounding
+  - it: should call the round function on the FirstNumber value to round to the nearest integer and save the result in the data.rounded path. For example, if FirstNumber is 4.6, data.rounded should be 5. If FirstNumber is 4.4, data.rounded should be 4.
+    set:
+      FirstNumber: 64.9815
+      SecondNumber: 64.3
+    asserts:
+      - equal:
+          path: data.rounded
+          value: 65
+  # Round the integer to three decimal places
+  - it: should call the round function on the FirstNumber value, but round to 3 decimal places and save the result in the data.roundedThreePlaces path. For example, if FirstNumber is 2.71828, data.roundedThreePlaces should be 2.718. If FirstNumber is 4.4, data.roundedThreePlaces should be 4.4.
+    set:
+      FirstNumber: 64.9815
+    asserts:
+      - equal:
+          path: data.roundedThreePlaces
+          value: 64.982
+  - it: should call the floor function on the FirstNumber value and save the result in the data.floored path. For example, if FirstNumber is 2.71828, data.floored should be 2. If FirstNumber is 4.4, data.floored should be 4.
+    set:
+      FirstNumber: 64.9815
+      SecondNumber: 64.3
+    asserts:
+      - equal:
+          path: data.floored
+          value: 64
+  - it: should call the ceil function on the FirstNumber value and save the result in the data.ceiled path. For example, if FirstNumber is 2.71828, data.ceiled should be 3. If FirstNumber is 4.4, data.ceiled should be 4.
+    set:
+      FirstNumber: 64.9815
+      SecondNumber: 64.3
+    asserts:
+      - equal:
+          path: data.ceiled
+          value: 65
+  - it: should call the ceil function on the FirstNumber value and the SecondNumber value, then add them together and save the result in the data.ceilingAdded path. For example, if FirstNumber is 2.71828 and SecondNumber is 3.4, data.ceilingAdded should be 7.
+    set:
+      FirstNumber: 64.9815
+      SecondNumber: 64.3
+    asserts:
+      - equal:
+          path: data.ceilingAdded
+          value: 130

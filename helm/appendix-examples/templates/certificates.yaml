@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: certificates-example
+data:
+  certAuthority: |
+    {{- $ca := genCA "example-host.com" 365 }}
+    {{- $ca | toYaml | nindent 4 }}
+  selfSignedCert : |
+    {{- $cert := genSelfSignedCert 
+                   "example-host.com" 
+                   (list "127.0.0.1") 
+                   (list "example.com") 
+                   365 
+    }}
+    {{- $cert | toYaml | nindent 4 }}
+  customCert: |
+    # This provides the string -> cert object
+    # So you can use custom certs with genSignedCert
+    {{- $customCert := buildCustomCert 
+        (b64enc $cert.Cert) 
+        (b64enc $cert.Key) 
+    }}
+    {{- $customCert | toYaml | nindent 4 }}
+  signedCert: |
+    {{- $signedCert := genSignedCert 
+                         "example-host.com" 
+                         (list "127.0.0.1") 
+                         (list "example.com") 
+                         365 
+                         $customCert 
+    }}
+    {{- $signedCert | toYaml | nindent 4 }}

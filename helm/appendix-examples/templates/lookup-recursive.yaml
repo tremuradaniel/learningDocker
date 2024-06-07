@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lookup-recursive-example
+data:
+  lastValues: | 
+{{ lookup "v1" "ConfigMap" "default" "lookup-recursive-example" 
+| toYaml
+| trim
+| nindent 4 
+}}
+

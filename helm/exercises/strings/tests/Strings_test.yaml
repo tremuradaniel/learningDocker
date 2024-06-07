@@ -1,0 +1,104 @@
+suite: String exercises from Practical Helm course. See the Lab Format or Strings Lab Walkthrough lessons for more details.
+templates:
+  - Strings.yaml
+tests:
+  # print
+  - it: Should set the data.concatenated field to the TestString value printed twice in a row. For example, "test" -> "testtest", "1" -> "11"
+    set:
+      TestString: "concatenate"
+    asserts:
+      - equal:
+          path: data.concatenated
+          value: concatenateconcatenate
+  - it: Should set the data.concatenated field to the TestString value printed twice in a row. For example, "test" -> "testtest", "1" -> "11"
+    set:
+      TestString: "alternative"
+    asserts:
+      - equal:
+          path: data.concatenated
+          value: alternativealternative
+  # contains
+  - it: Should set the data.containsCat field to true if the test string contains the string "cat", or false otherwise. For example, "test" -> false, "concatenate" -> true
+    set:
+      TestString: "contains"
+    asserts:
+      - equal:
+          path: data.containsCat
+          value: false
+  - it: Should set the data.containsCat field to true if the test string contains the string "cat", or false otherwise. For example, "test" -> false, "concatenate" -> true
+    set:
+      TestString: "concatenate"
+    asserts:
+      - equal:
+          path: data.containsCat
+          value: true
+  # trim
+  - it: Should set the data.trimmed field to the TestString value with whitespace removed from the start and end. For example, "test" -> "test", "   with whitespace " -> "with whitespace"
+    set:
+      TestString: "    text in the middle "
+    asserts:
+      - equal:
+          path: data.trimmed
+          value: "text in the middle"
+  - it: Should set the data.trimmed field to the TestString value with whitespace removed from the start and end. For example, "test" -> "test", "   with whitespace " -> "with whitespace"
+    set:
+      TestString: "  \n\ntest text   \n \t  "
+    asserts:
+      - equal:
+          path: data.trimmed
+          value: test text
+  # indent
+  - it: Should set the data.indentedTwo field to the TestString value indented 2 spaces to the right. For example, "test" -> "  test", "  already indented" -> "    already indented"
+    set:
+      TestString: "unindented text"
+    asserts:
+      - equal:
+          path: data.indentedTwo
+          value: "  unindented text"
+  - it: Should set the data.indentedTwo field to the TestString value indented 2 spaces to the right. For example, "test" -> "  test", "  already indented" -> "    already indented". This property should work on strings with multiple lines, indenting each line 2 spaces.
+    set:
+      TestString: "line one\nline two"
+    asserts:
+      - equal:
+          path: data.indentedTwo
+          value: "  line one\n  line two"
+  # quote
+  - it: Should set the data.quotedText field to the TestString value with quotes added to the start and end to ensure that the value is a string. For example, "test" -> "\"test\"", 3 -> "3". 
+    set:
+      TestString: "unquoted text"
+    asserts:
+      - equal:
+          path: data.quotedText
+          value: "unquoted text"
+  - it: Should set the data.quotedText field to the TestString value with quotes added to the start and end to ensure that the value is a string. For example, "test" -> "\"test\"", 3 -> "3". 
+    set:
+      TestString: '3'
+    asserts:
+      - equal:
+          path: data.quotedText
+          value: "3"
+  - it: Should set the data.quotedText field to the TestString value with quotes added to the start and end to ensure that the value is a string. For example, "test" -> "\"test\"", 3 -> "3". 
+    set:
+      TestString: true
+    asserts:
+      - equal:
+          path: data.quotedText
+          value: "true"
+  # Casing and formatting
+  - it: Should set the data.appNameAndVersion field to the TestString value trimmed and set to kebab case, the "-" character, then "1.0.0". For example, "ExampleName" -> "example-name-1.0.0", "my_custom_name" -> "my-custom-name-1.0.0"
+    set:
+      TestString: "someApplicationName"
+    asserts:
+      - equal:
+          path: data.appNameAndVersion
+          value: some-application-name-1.0.0
+  - it: Should set the data.appNameAndVersion field to the TestString value trimmed and set to kebab case, the "-" character, then "1.0.0". For example, "ExampleName" -> "example-name-1.0.0", "my_custom_name" -> "my-custom-name-1.0.0"
+    set:
+      TestString: "snake_case_app"
+    asserts:
+      - equal:
+          path: data.appNameAndVersion
+          value: snake-case-app-1.0.0
+
+
+

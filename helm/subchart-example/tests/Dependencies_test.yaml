@@ -1,0 +1,53 @@
+suite: Dependency exercises from Practical Helm course. See the Lab Format or Dependencies Lab Walkthrough lessons for more details.
+templates:
+  - Dependencies.yaml
+tests:
+  # Subchart values
+  - it: should have a property named subchartValue that has the chart name of the first subchart
+    asserts:
+      - equal:
+          path: data.subchartValue
+          value: Child Value
+  - it: should make subchartValue dynamic
+    set:
+      ChildChart:
+        exampleKey: Updated Value
+    asserts:
+      - equal:
+          path: data.subchartValue
+          value: Updated Value
+  - it: should have a property named chartValue that has the chart name of the first subchart
+    asserts:
+      - equal:
+          path: data.chartValue
+          value: Parent Value
+  - it: should make chartValue dynamic
+    set:
+      exampleKey: Updated Value
+    asserts:
+      - equal:
+          path: data.chartValue
+          value: Updated Value
+  - it: should have a property named hiddenValue that has the chart name of the first subchart
+    asserts:
+      - equal:
+          path: data.hiddenValue
+          value: HiddenValue
+  - it: should make hiddenValue dynamic
+    asserts:
+      - equal:
+          path: data.hiddenValue
+          value: HiddenValue
+  - it: should have a property named dependencyValue that has the value of .Values.TestString from the dependency chart
+    asserts:
+      - equal:
+          path: data.dependencyValue
+          value: example string
+  - it: should make dependencyValue dynamic
+    set:
+      Strings:
+        TestString: updated string
+    asserts:
+      - equal:
+          path: data.dependencyValue
+          value: updated string

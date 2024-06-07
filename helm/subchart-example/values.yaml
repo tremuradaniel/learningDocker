@@ -1,0 +1,6 @@
+exampleKey: Parent Value
+
+# Accessible from subchart
+# global: 
+#  globalKey: "Parent Value from Child Chart"
+

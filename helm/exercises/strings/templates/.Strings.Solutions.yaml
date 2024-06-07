@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+# This next line handles coercing the input to a String value.
+# You will learn more about how to handle the various types later in the course.
+{{ $testString := ternary .Values.TestString (toString .Values.TestString) (kindIs "string" .Values.TestString) }}
+data:
+  concatenated: {{ print $testString $testString | quote }}
+  containsCat: {{ contains "cat" $testString }}
+  trimmed: {{ $testString | trim | quote }}
+  indentedTwo: {{ $testString | indent 2 | quote }}
+  quotedText: {{ $testString | quote }}
+  appNameAndVersion: {{ $testString | kebabcase | printf "%v-1.0.0" }}

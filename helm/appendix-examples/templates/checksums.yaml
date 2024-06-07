@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: checksums-example
+data:
+  {{- $testString := "testString" }}
+  testString:
+    {{ $testString }}
+  sha1Checksum: 
+    {{ sha1sum $testString | quote }}
+  sha256Checksum: 
+    {{ sha256sum $testString | quote }}
+  adlerChecksum: 
+    {{ adler32sum $testString | quote }}

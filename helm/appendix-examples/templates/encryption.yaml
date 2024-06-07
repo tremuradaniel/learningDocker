@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: encryption-example
+data:
+  originalString:
+    {{- $testString := "teststring" }}
+    {{- $testString | toYaml | nindent 4}}
+  encrypted: |
+    {{- /* You can use any string for the key */ -}} 
+    {{- /* This template generates an RSA key */ -}}
+    {{- $privateKey := genPrivateKey "rsa" }}
+    {{- $encrypted := encryptAES $privateKey $testString }}
+    {{- $encrypted | toYaml | nindent 4 }}
+  decrypted: |
+    {{ decryptAES $privateKey $encrypted }}
+

@@ -1,0 +1,7 @@
+exampleKey: Example Value
+numberKey: 5
+listKey:
+  - 1
+  - 2
+  - 3
+booleanKey: true

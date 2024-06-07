@@ -1,0 +1,199 @@
+suite: List exercises from Practical Helm course. See the Lab Format or Lists Lab Walkthrough lessons for more details.
+templates:
+  - Lists.yaml
+tests:
+  # Printing
+  - it: Should set the data.echoedList property to a YAML list with the items from the testList value. For instance, [ 1, 2, 3 ] -> [ 1, 2, 3 ]
+    asserts:
+      - equal:
+          path: data.echoedList
+          value: [ helm, kubernetes, yaml ]
+  - it: Should set the data.echoedList property to a YAML list with the items from the testList value. For instance, [ 1, 2, 3 ] -> [ 1, 2, 3 ]
+    set:
+      TestList: [ 1, 2, 3 ]
+    asserts:
+      - equal:
+          path: data.echoedList
+          value: [ 1, 2, 3 ]
+  - it: |-
+      Should set the data.echoedListRange property to a YAML list with the items from the testList value. For this unit test, use the range action to iterate through the items and print them. For instance, if TestList is ["a", "b", "c" should result in the following list.
+      - a
+      - b
+      - c
+    asserts:
+      - equal:
+          path: data.echoedListRange
+          value: [ helm, kubernetes, yaml ]
+  - it: |-
+      Should set the data.echoedListRange property to a YAML list with the items from the testList value. For this unit test, use the range action to iterate through the items and print them. For instance, TestList of ["a", "b", "c" should result in the following list.
+      - a
+      - b
+      - c
+    set:
+      TestList: [ 1, 2, 3 ]
+    asserts:
+      - equal:
+          path: data.echoedList
+          value: [ 1, 2, 3 ]
+  # index
+  - it: Should set the data.firstItem property to the first item in the TestList value. For example, [ "a", "b", "c" ] -> "a", [ 0, 1 ] -> 0
+    asserts:
+      - equal:
+          path: data.firstItem
+          value: helm
+  - it: Should set the data.firstItem property to the first item in the TestList value. For example, [ "a", "b", "c" ] -> "a", [ 0, 1 ] -> 0
+    set:
+      TestList: [ 1, 2, 3 ]
+    asserts:
+      - equal:
+          path: data.firstItem
+          value: 1
+  - it: Should set the data.firstItem property to the string "Not found" if the TestList value is empty. For example, [ ] -> "Not Found"
+    set:
+      TestList: []
+    asserts:
+      - equal:
+          path: data.firstItem
+          value: Not Found
+  - it: Should set the data.thirdItem property to the third item in the TestList value. For example, [ "a", "b", "c", "d" ] -> "c"
+    set:
+      TestList: [ 1, 2, 3, 4, 5 ]
+    asserts:
+      - equal:
+          path: data.thirdItem
+          value: 3
+
+  - it: Should set the data.thirdItem property to "Not Found" if the TestList value is empty. For example, [ "a", "b" ] -> "Not Found"
+    set:
+      TestList: [ 1, 2 ]
+    asserts:
+      - equal:
+          path: data.thirdItem
+          value: Not Found
+
+  # uniq
+  - it: Should set the data.uniqueList property to a YAML list with the unique elements from the TestList value. For example, [ "helm", "helm", "kubernetes", "kubernetes" ] -> [ "helm", "kubernetes"
+    asserts:
+      - equal:
+          path: data.uniqueList
+          value: [ helm, kubernetes, yaml ]
+  - it: Should set the data.uniqueList property to a YAML list with the unique elements from the TestList value. For example, [ "helm", "helm", "kubernetes", "kubernetes" ] -> [ "helm", "kubernetes"
+    set:
+      TestList: [ 1, 2 ]
+    asserts:
+      - equal:
+          path: data.uniqueList
+          value: [ 1, 2 ]
+  - it: Should set the data.uniqueList property to a YAML list with the unique elements from the TestListValue. For example, [ "helm", "helm", "kubernetes", "kubernetes" ] -> [ "helm", "kubernetes"
+    set:
+      TestList: [ 1, 2, 2 ]
+    asserts:
+      - equal:
+          path: data.uniqueList
+          value: [ 1, 2 ]
+  - it: Should set the data.uniqueList property to a YAML list with the unique elements from the TestListValue. For example, [ "helm", "helm", "kubernetes", "kubernetes" ] -> [ "helm", "kubernetes"
+    set:
+      TestList: [ 1, 1, 2, 2, 3, 3, 3, 3 ]
+    asserts:
+      - equal:
+          path: data.uniqueList
+          value: [ 1, 2, 3 ]
+  - it: Should set the data.uniqueList property to a YAML list with the unique elements from the TestList value. For example, [ "helm", "helm", "kubernetes", "kubernetes" ] -> [ "helm", "kubernetes"
+    set:
+      TestList: []
+    asserts:
+      - equal:
+          path: data.uniqueList
+          value: []
+  # length
+  - it: Should set the property data.uniqueListLength to the number of elements in the list value calculated for data.uniqueList. See those unit tests first if you have not done so yet. For example, [ 1, 2, 3] -> 3, [ 1, 2, 2, 2, 3 ] -> 3
+    asserts:
+      - equal:
+          path: data.uniqueListLength
+          value: 3
+  - it: Should set the property data.uniqueListLength to the number of elements in the list value calculated for data.uniqueList. See those unit tests first if you have not done so yet. For example, [ 1, 2, 3] -> 3, [ 1, 2, 2, 2, 3 ] -> 3
+    set:
+      TestList: []
+    asserts:
+      - equal:
+          path: data.uniqueListLength
+          value: 0
+  - it: Should set the property data.uniqueListLength to the number of elements in the list value calculated for data.uniqueList. See those unit tests first if you have not done so yet. For example, [ 1, 2, 3] -> 3, [ 1, 2, 2, 2, 3 ] -> 3
+    set:
+      TestList: [ 1, 2, 3, 3, 2, 1, 3, 2, 1, 6]
+    asserts:
+      - equal:
+          path: data.uniqueListLength
+          value: 4
+  # Without
+  - it: Should set the property data.withoutHelm property to a YAML list with the items from the TestList value except for the string "helm". For example, [ 1, 2, 3 ] -> [ 1, 2, 3 ], [ "helm", "helm", "test" ] -> [ "test" ]
+    asserts:
+      - equal:
+          path: data.withoutHelm
+          value: [ kubernetes, yaml ]
+  - it: Should set the data.withoutHelm property to a list with the items from the TestList value except for the string "helm". For example, [ 1, 2, 3 ] -> [ 1, 2, 3 ], [ "helm", "helm", "test" ] -> [ "test" ]
+    set:
+      TestList: [ 1, 2, 3, 4, 5, helm ]
+    asserts:
+      - equal:
+          path: data.withoutHelm
+          value: [ 1, 2, 3, 4, 5 ]
+
+  # Slice
+  - it: Should set the data.sliceOneToThree property to a slice of the TestList value. The start of the slice should be at index 1, and the end of the slice at index 3. For example, [ "a", "b", "c", "d", "e" ] -> [ "b", "c" ]
+    set:
+      TestList: [ 1, 2, 3, 4, 5 ]
+    asserts:
+      - equal:
+          path: data.sliceOneToThree
+          value: [ 2, 3 ]
+  - it: Should set the data.sliceOneToThree property to a slice of the TestList value. The start of the slice should be at index 1, and the end of the slice at index 3. For example, [ "a", "b", "c", "d", "e" ] -> [ "b", "c" ]
+    asserts:
+      - equal:
+          path: data.sliceOneToThree
+          value: [ kubernetes, yaml ]
+  - it: Should set the data.sliceOneToThree property to a slice of the TestList value. The start of the slice should be at index 1, and the end of the slice at index 3. For example, [ "a", "b", "c", "d", "e" ] -> [ "b", "c" ]
+    set:
+      TestList: [ 1, 2, 3, 4, 5, helm ]
+    asserts:
+      - equal:
+          path: data.sliceOneToThree
+          value: [ 2, 3 ]
+  # Building Lists
+  - it: Should set the data.goFirst property to a YAML list that starts with the string "go" and then has all the items from the TestList value. For example, [ "a", "b" ] -> [ "go", "a", "b" ]
+    asserts:
+      - equal:
+          path: data.goFirst
+          value: [ go, helm, kubernetes, yaml ]
+  - it: Should set the data.goFirst property to a YAML list that starts with the string "go" and then has all the items from the TestList value. For example, [ "a", "b" ] -> [ "go", "a", "b" ]
+    set:
+      TestList: [ 1, 2, 3, 4, 5 ]
+    asserts:
+      - equal:
+          path: data.goFirst
+          value: [ go, 1, 2, 3, 4, 5 ]
+  - it: Should set the data.httpLast property to a YAML list that has all the items from the TestList value and then ends with the string "http". For example, [ "a", "b" ] -> [ "a", "b", "http" ]
+    asserts:
+      - equal:
+          path: data.httpLast
+          value: [ helm, kubernetes, yaml, http ]
+  - it: Should set the data.httpLast property to a YAML list that has all the items from the TestList value and then ends with the string "http". For example, [ "a", "b" ] -> [ "a", "b", "http" ]
+    set:
+      TestList: [ 1, 2, 3, 4, 5 ]
+    asserts:
+      - equal:
+          path: data.httpLast
+          value: [ 1, 2, 3, 4, 5, http ]
+  - it: Should set the data.doubledList property to a YAML list that has all the items from the TestList value, and then repeats the elements again. For example, [ "a", "b" ] -> [ "a", "b", "a", "b" ]
+    asserts:
+      - equal:
+          path: data.doubledList
+          value: [ helm, kubernetes, yaml, helm, kubernetes, yaml ]
+  - it: Should set the data.doubledList property to a YAML list that has all the items from the TestList value, and then repeats the elements again. For example, [ "a", "b" ] -> [ "a", "b", "a", "b" ]
+    set:
+      TestList: [ 1, 2, 3, 4, 5 ]
+    asserts:
+      - equal:
+          path: data.doubledList
+          value: [ 1, 2, 3, 4, 5, 1, 2, 3, 4, 5 ]
+

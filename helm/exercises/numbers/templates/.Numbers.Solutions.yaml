@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+  # Arithmetic
+  added: {{ add .Values.FirstNumber .Values.SecondNumber }}
+  subtracted: {{ sub .Values.FirstNumber .Values.SecondNumber }}
+  divided: {{ div .Values.FirstNumber .Values.SecondNumber }}
+  multiplied: {{ mul .Values.FirstNumber .Values.SecondNumber }}
+
+  # Comparisons
+  greaterThan: {{ gt .Values.FirstNumber .Values.SecondNumber }}
+  lessThan: {{ lt .Values.FirstNumber .Values.SecondNumber }}
+  greaterThanEqualTo: 
+    {{ ge .Values.FirstNumber .Values.SecondNumber }}
+  lessThanOrEqualTo: {{ le .Values.FirstNumber .Values.SecondNumber }}
+  equals: {{ eq .Values.FirstNumber .Values.SecondNumber }}
+  notEquals: {{ ne .Values.FirstNumber .Values.SecondNumber }}
+
+  # Modulo
+  modded: {{ mod .Values.FirstNumber .Values.SecondNumber }}
+
+  # Rounding
+  rounded: {{ round .Values.FirstNumber 0 }}
+  # Round to 3 decimal places
+  roundedThreePlaces: {{ round .Values.FirstNumber 3 }}
+  floored: {{ floor .Values.FirstNumber }}
+  ceiled: {{ ceil .Values.FirstNumber }}
+  ceilingAdded: {{ add (ceil .Values.FirstNumber) (ceil .Values.SecondNumber) }}

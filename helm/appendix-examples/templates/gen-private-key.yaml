@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gen-private-key-example
+data:
+  dsaKey: |
+    {{- /* Digital Signature Algorithm */ -}}
+    {{- genPrivateKey "dsa" | nindent 4 }}
+  ed25519Key: |
+    {{- /* Rivest–Shamir–Adleman */ -}}
+    {{- genPrivateKey "ed25519" | nindent 4 }}
+  ellipticCurveKey: |
+    {{- /* Elliptic Curve Digital Signature Algorithm */ -}}
+    {{- genPrivateKey "ecdsa" | nindent 4 }}
+  rsaKey: |
+    {{- /* Rivest–Shamir–Adleman */ -}}
+    {{- genPrivateKey "rsa" | nindent 4 }}

@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: semver-example
+data:
+  chartVersion:
+    {{ semver .Chart.Version -}} 
+{{- $version := semver "1.2.3-beta+123" }}
+  exampleVersion: {{ $version }}
+  allFields: |
+    Major: {{ $version.Major }}
+    Minor: {{ $version.Minor }}
+    Patch: {{ $version.Patch }}
+    Prerelease: {{ $version.Prerelease }}
+    Metadata: {{ $version.Metadata }}
+    Original: {{ $version.Original }}
+  chartOrExampleIsNewer: 
+    {{- if gt 0 ($version.Compare (semver .Chart.Version)) }}
+    Example 
+    {{- else }}
+    Chart
+    {{ end }}
+
+

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-outer
+data:
+  parent:
+{{ .Values | toYaml | indent 4 }}

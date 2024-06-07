@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: files-example
+data:
+{{- $exampleFile := "/Users/student/test.txt" }}
+  exampleFile: {{ $exampleFile }}
+  base: {{ base $exampleFile }}
+  directory: {{ dir $exampleFile }}
+  extension: {{ ext $exampleFile }}
+  isAbsolute: {{ isAbs $exampleFile | quote }}
+{{- $exampleNonCanonicalFile := "/Users/student/../student/test.txt" }}
+  exampleNonCanonicalFile: {{ $exampleNonCanonicalFile }}
+  cleaned: {{ clean $exampleNonCanonicalFile }}

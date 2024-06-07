@@ -1,0 +1,178 @@
+suite: ControlFlow exercises from Practical Helm course. See the Lab Format or ControlFlow Lab Walkthrough lessons for more details. This lab has you create a letterGrade property and calculate its value based on the Score variable.
+templates: 
+  - ControlFlow.yaml
+tests:
+  # Use if / else for these
+  - it: Should set the data.letterGrade field to "A" using if/else if the Score value is over 90. For example, 94 -> "A"
+    set:
+      Score: 99
+    asserts:
+      - equal:
+          path: data.letterGrade
+          value: "A"
+  - it: Should set the data.letterGrade field to "B" using if/else if the Score value is over 80 but under 90. For example, 83 -> "B"
+    set:
+      Score: 85
+    asserts:
+      - equal:
+          path: data.letterGrade
+          value: "B"
+  - it: Should set the data.letterGrade field to "C" using if/else if the Score value is over 70 but under 80. For example, 73 -> "C"
+    set:
+      Score: 73
+    asserts:
+      - equal:
+          path: data.letterGrade
+          value: "C"
+  - it: Should set the data.letterGrade field to "D" using if/else if the Score value is over 60 but under 70. For example, 68 -> "D"
+    set:
+      Score: 67
+    asserts:
+      - equal:
+          path: data.letterGrade
+          value: "D"
+  - it: Should set the data.letterGrade field to "F" using if/else if the Score value is under 60. For example, 43 -> "F"
+    set:
+      Score: 55
+    asserts:
+      - equal:
+          path: data.letterGrade
+          value: "F"
+  - it: Should set the data.letterGrade field to "F" using if/else if the Score value is not an integer. For example, "Test String" -> "F"
+    set:
+      Score: notAnInteger
+    asserts:
+      - equal:
+          path: data.letterGrade
+          value: "F"
+  # Use with for these
+  - it: Should set the data.letterGradeUsingWith field to "A" using a with action if the Score value is over 90. For example, 91 -> "F"
+    set:
+      Score: 99
+    asserts:
+      - equal:
+          path: data.letterGradeUsingWith
+          value: "A"
+  - it: Should set the data.letterGradeUsingWith field to "B" using a with action if the Score value is over 80 but under 90. For example, 83 -> "B"
+    set:
+      Score: 85
+    asserts:
+      - equal:
+          path: data.letterGradeUsingWith
+          value: "B"
+  - it: Should set the data.letterGradeUsingWith field to "C" using a with action if the Score value is over 70 but under 80. For example, 72 -> "C"
+    set:
+      Score: 73
+    asserts:
+      - equal:
+          path: data.letterGradeUsingWith
+          value: "C"
+  - it: Should set the data.letterGradeUsingWith field to "D" using a with action if the Score value is over 60 but under 70. For example, 65 -> "D"
+    set:
+      Score: 67
+    asserts:
+      - equal:
+          path: data.letterGradeUsingWith
+          value: "D"
+  - it: Should set the data.letterGradeUsingWith field to "F" using a with action if the Score value is under 60. For example, 25 -> "F"
+    set:
+      Score: 55
+    asserts:
+      - equal:
+          path: data.letterGradeUsingWith
+          value: "F"
+  - it: Should set the data.letterGradeUsingWith field to "F" using a with action if the Score value is not an integer. For example, "Not A Number" -> "F"
+    set:
+      Score: notAnInteger
+    asserts:
+      - equal:
+          path: data.letterGradeUsingWith
+          value: "F"
+  # Use variables for this
+  - it: Should set the data.letterGradeUsingVariable field to "A" using a variable if the Score value is over 90. For example, 94 -> "A"
+    set:
+      Score: 99
+    asserts:
+      - equal:
+          path: data.letterGradeUsingVariable
+          value: "A"
+  - it: Should set the data.letterGradeUsingVariable field to "B" using a variable if the Score value is over 80 but under 90. For example, 87 -> "B"
+    set:
+      Score: 85
+    asserts:
+      - equal:
+          path: data.letterGradeUsingVariable
+          value: "B"
+  - it: Should set the data.letterGradeUsingVariable field to "C" using a variable if the Score value is over 70 but under 80. For example, 71 -> "C"
+    set:
+      Score: 73
+    asserts:
+      - equal:
+          path: data.letterGradeUsingVariable
+          value: "C"
+  - it: Should set the data.letterGradeUsingVariable field to "D" using a variable if the Score value over 60 but under 70. For example, 67 -> "D"
+    set:
+      Score: 67
+    asserts:
+      - equal:
+          path: data.letterGradeUsingVariable
+          value: "D"
+  - it: Should set the data.letterGradeUsingVariable field to "F" using a variable if the Score value is under 60. For example, 55 -> "F"
+    set:
+      Score: 55
+    asserts:
+      - equal:
+          path: data.letterGradeUsingVariable
+          value: "F"
+  - it: Should set the data.letterGradeUsingVariable field to "F" using a variable if the Score value is not an integer. For example, "NaN" -> "F"
+    set:
+      Score: notAnInteger
+    asserts:
+      - equal:
+          path: data.letterGradeUsingVariable
+          value: "F"
+
+  # Use the ternary function for these
+  - it: Should set the data.letterGradeUsingTernary field to "A" using a variable if the Score value is over 90. For example, 94 -> "A"
+    set:
+      Score: 99
+    asserts:
+      - equal:
+          path: data.letterGradeUsingTernary
+          value: "A"
+  - it: Should set the data.letterGradeUsingTernary field to "B" using a variable if the Score value is over 80 but under 90. For example, 87 -> "B"
+    set:
+      Score: 85
+    asserts:
+      - equal:
+          path: data.letterGradeUsingTernary
+          value: "B"
+  - it: Should set the data.letterGradeUsingTernary field to "C" using a variable if the Score value is over 70 but under 80. For example, 79 -> "C"
+    set:
+      Score: 73
+    asserts:
+      - equal:
+          path: data.letterGradeUsingTernary
+          value: "C"
+  - it: Should set the data.letterGradeUsingTernary field to "D" using a variable if the Score value is over 60 but under 70. For example, 63 -> "D"
+    set:
+      Score: 67
+    asserts:
+      - equal:
+          path: data.letterGradeUsingTernary
+          value: "D"
+  - it: Should set the data.letterGradeUsingTernary field to "F" using a variable if the Score value is under 60. For example, 59 -> "F"
+    set:
+      Score: 55
+    asserts:
+      - equal:
+          path: data.letterGradeUsingTernary
+          value: "F"
+  - it: Should set the data.letterGradeUsingTernary field to "F" using a variable if the Score value is not an integer. For example, "Test string" -> "F"
+    set:
+      Score: notAnInteger
+    asserts:
+      - equal:
+          path: data.letterGradeUsingTernary
+          value: "F"
+

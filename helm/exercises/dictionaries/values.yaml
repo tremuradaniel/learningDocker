@@ -1,0 +1,5 @@
+TestDictionary:
+  key: 2
+EmptyDictionary: {}
+TestKey: key
+TestValue: 51

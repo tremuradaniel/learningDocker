@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+data:
+  echoedDictionary: 
+{{ .Values.TestDictionary 
+     | toYaml 
+     | indent 4 
+}}
+  newDictionary: 
+    {{ .Values.TestKey }}:
+{{ .Values.TestValue | toYaml | indent 8 }}
+  lookupValue:
+    {{ get .Values.TestDictionary .Values.TestKey }}
+  keyPresent:
+    {{ hasKey .Values.TestDictionary .Values.TestKey }}
+  updatedDict:
+{{ $dictCopy := deepCopy .Values.TestDictionary | merge (dict) }}
+{{ $updated := set $dictCopy .Values.TestKey .Values.TestValue }}
+{{ $updated
+   | toYaml
+   | indent 4
+}}
+  removedDict:
+{{ $dictCopy2 := deepCopy .Values.TestDictionary }}
+{{ if not (hasKey $dictCopy .Values.TestKey) }}
+{{ $dictCopy2 | toYaml | indent 4 }}
+{{ else }}
+{{ unset $dictCopy2 .Values.TestKey 
+   | toYaml
+   | indent 4
+}}
+{{ end }}
+  omittedDict:
+{{ omit .Values.TestDictionary .Values.TestKey 
+   | toYaml
+   | indent 4
+}}
+  dictionaryKeys:
+{{ keys .Values.EmptyDictionary | sortAlpha | toYaml | indent 4 }}
+  dictionaryValues:
+{{ values .Values.EmptyDictionary | sortAlpha | toYaml | indent 4 }}
