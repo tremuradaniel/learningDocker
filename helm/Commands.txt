@@ -1,0 +1,8 @@
+# First, navigate to the helm labs directory you have downloaded
+cd labs
+
+# Basic format
+helm template <chart directory>
+
+# First example command
+helm template values-checker
