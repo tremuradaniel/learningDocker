@@ -1,0 +1,1 @@
+java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,address=*:8555,suspend=n -jar app.jar
