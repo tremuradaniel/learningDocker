@@ -10,7 +10,11 @@ services:
       - '8000:80'
     volumes:
       - ./src:/var/www/html
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro # ro - read-only
+# ro
+# Purpose: Setting the volume as read-only (:ro) ensures that the container cannot modify the configuration file. This is often used for configuration files that should remain unchanged and consistent.
+# Security: It prevents the containerized application from accidentally or maliciously altering the configuration, adding an extra layer of security.
+# Usage: When nginx.conf is only needed for reading (not for writing), setting it as :ro makes sense.
     depends_on:
       - php
       - mysql
@@ -20,6 +24,18 @@ services:
       dockerfile: dockerfiles/php.dockerfile
     volumes:
       - ./src:/var/www/html:delegated
+# :delegated optimizes performance by prioritizing the container's access to files, 
+# which can be helpful for directories with frequent reads and writes.
+
+# Purpose: :delegated tells Docker that the container's view of the mounted volume can be given 
+# priority over the host's view, allowing the container to have faster access to the files. 
+# Changes made within the container may take longer to sync back to the host, 
+# but this trade-off improves performance.
+# Performance: :delegated is typically used for directories where fast access is essential, 
+# and a delay in syncing changes from the container back to the host is acceptable. This mode 
+# is especially useful in development environments on macOS or Windows, where file syncing can be slow.
+# Usage: In this example, ./src is mounted with :delegated, so the application running in 
+# the container can access files in /var/www/html with reduced overhead.
   mysql:
     image: mysql:5.7
     env_file:
